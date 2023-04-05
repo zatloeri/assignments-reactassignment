@@ -1,19 +1,20 @@
-import React from "react";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { Input } from "../Input";
 
-export default {
+const meta = {
     title: "Form/Input",
     component: Input,
-} as ComponentMeta<typeof Input>;
+} as Meta<typeof Input>;
+export default meta;
+type Story = StoryObj<typeof Input>;
 
-const Template: ComponentStory<typeof Input> = (args) => <Input {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {
-    initialValue: "",
+export const Default: Story = {
+    args: {
+        initialValue: "",
+    },
 };
-export const WithInitialValue = Template.bind({});
-WithInitialValue.args = {
-    initialValue: "Lorem ipsum",
+export const WithInitialValue: Story = {
+    args: {
+        initialValue: "Lorem ipsum",
+    },
 };
