@@ -22,7 +22,6 @@
     "styled-normalize": "^8.0.7",
     "styled-reset": "^4.4.2"
   },
-
   "devDependencies": {
     "@storybook/addon-actions": "^7.0.2",
     "@storybook/addon-essentials": "^7.0.2",
@@ -48,6 +47,6 @@
     "vite-tsconfig-paths": "^4.0.8"
   },
   "volta": {
-    "node": "16.18.0"
+    "node": "18.15.0"
   }
 }
