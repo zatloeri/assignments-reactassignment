@@ -6,7 +6,7 @@ const StyledDiv = styled.footer`
     margin-top: 15px;
     padding-top: 15px;
     border-top: 1px solid;
-    border-color: ${(props) => props.theme.colors.olive6}; ;
+    border-color: ${(props) => props.theme.colors.olive6};
 `;
 
 export type FooterProps = {

@@ -1,24 +1,25 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
 import { ListItem } from "../ListItem";
-import { action } from "@storybook/addon-actions";
 
-export default {
+const meta = {
     title: "List Item",
     component: ListItem,
-} as ComponentMeta<typeof ListItem>;
-
-const Template: ComponentStory<typeof ListItem> = (args) => <ListItem {...args} />;
-
-export const ToDo = Template.bind({});
-ToDo.args = {
-    label: "Lorem ipsum dolor",
-    handleRemoval: action("Item removed"),
-    handleEdit: action("Item edit required"),
+    argTypes: {
+        handleRemoval: { action: "removed" },
+        handleEdit: { action: "edited" },
+    },
+} as Meta<typeof ListItem>;
+export default meta;
+type Story = StoryObj<typeof ListItem>;
+export const ToDo: Story = {
+    args: {
+        label: "Lorem ipsum dolor",
+    },
 };
-
-export const Done = Template.bind({});
-Done.args = {
-    ...ToDo.args,
-    checked: true,
+export const Done: Story = {
+    args: {
+        ...ToDo.args,
+        checked: true,
+    },
 };
