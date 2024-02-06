@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 export const Layout = styled.main`
+    display: flex;
+    justify-content: space-between;
     background-color: rgb(255, 255, 255);
     padding: 20px;
     border: 1px solid;
@@ -10,6 +12,5 @@ export const Layout = styled.main`
     margin: 0 30px;
     max-width: 600px;
     min-height: 50vh;
-    display: flex;
     flex-direction: column;
 `;
