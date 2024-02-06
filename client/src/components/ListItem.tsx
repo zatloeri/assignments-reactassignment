@@ -4,13 +4,20 @@ import { Checkbox } from "./Checkbox";
 import { CheckboxProps } from "@radix-ui/react-checkbox";
 import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 
-const StyledDiv = styled.div`
+const StyledListItemContainer = styled.div`
     display: flex;
     align-items: center;
 `;
 
 const StyledActionButtons = styled.div`
     margin-left: auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    ${StyledListItemContainer}:hover & {
+        opacity: 1;
+        visibility: visible;
+    }
 `;
 
 const StyledLabel = styled.label`
@@ -24,7 +31,7 @@ export type LiteItemProp = CheckboxProps & {
 };
 
 export const ListItem: React.FC<LiteItemProp> = ({ label, handleRemoval, handleEdit, ...checkboxProps }) => (
-    <StyledDiv>
+    <StyledListItemContainer>
         <Checkbox {...checkboxProps} />
         <StyledLabel>{label}</StyledLabel>
         <StyledActionButtons>
@@ -35,5 +42,5 @@ export const ListItem: React.FC<LiteItemProp> = ({ label, handleRemoval, handleE
                 <Pencil1Icon />
             </button>
         </StyledActionButtons>
-    </StyledDiv>
+    </StyledListItemContainer>
 );
