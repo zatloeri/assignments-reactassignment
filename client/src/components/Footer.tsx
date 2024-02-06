@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const StyledDiv = styled.footer`
+const StyledFooter = styled.footer`
     display: flex;
     margin-top: 15px;
     padding-top: 15px;
@@ -13,9 +13,10 @@ export type FooterProps = {
     todoItems?: number;
     doneItems?: number;
 };
+
 export const Footer: React.FC<FooterProps> = ({ todoItems, doneItems }) => (
-    <StyledDiv>
-        Todo: {todoItems}
-        Done: {todoItems}
-    </StyledDiv>
+    <StyledFooter>
+        Todo: {todoItems || 0}
+        Done: {doneItems || 0}
+    </StyledFooter>
 );
