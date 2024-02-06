@@ -9,7 +9,11 @@ const StyledDiv = styled.div`
     align-items: center;
 `;
 
-const Label = styled.label`
+const StyledActionButtons = styled.div`
+    margin-left: auto;
+`;
+
+const StyledLabel = styled.label`
     margin-left: 15px;
 `;
 
@@ -22,12 +26,14 @@ export type LiteItemProp = CheckboxProps & {
 export const ListItem: React.FC<LiteItemProp> = ({ label, handleRemoval, handleEdit, ...checkboxProps }) => (
     <StyledDiv>
         <Checkbox {...checkboxProps} />
-        <Label>{label}</Label>
-        <button onClick={() => handleEdit()}>
-            <TrashIcon />
-        </button>
-        <button onClick={() => handleRemoval()}>
-            <Pencil1Icon />
-        </button>
+        <StyledLabel>{label}</StyledLabel>
+        <StyledActionButtons>
+            <button onClick={() => handleEdit()}>
+                <TrashIcon />
+            </button>
+            <button onClick={() => handleRemoval()}>
+                <Pencil1Icon />
+            </button>
+        </StyledActionButtons>
     </StyledDiv>
 );
