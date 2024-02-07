@@ -1,27 +1,17 @@
 import { Container } from "./components/Container";
 import { Layout } from "./components/Layout";
 import { List } from "./components/List";
-import { Header, HeaderProps } from "./components/Header";
 import { Footer } from "./components/Footer";
-import { useMutation, useQuery } from "react-query";
-import { ListItemFromApi, addTodoListItem, getTodoListItems } from "./api/items";
+import { useQuery } from "react-query";
+import { ListItemFromApi, getTodoListItems } from "./api/items";
 import { ListItem } from "./components/ListItem";
-import { useCallback, useEffect } from "react";
+import { TodoListHeader } from "./todo-list/TodoListHeader";
 
 export const TodoList = () => {
     const { isLoading, error, data, refetch } = useQuery<ListItemFromApi[]>({
         queryKey: ["todos"],
         queryFn: getTodoListItems,
     });
-
-    const addItemMutation = useMutation({ mutationFn: addTodoListItem });
-
-    const apiAddItem = useCallback<HeaderProps["handleAddItem"]>(
-        (data) => {
-            addItemMutation.mutate(data);
-        },
-        [addItemMutation]
-    );
 
     let ListItems: React.ReactNode | React.ReactNode[] = "Unknown state";
     if (error) {
@@ -41,16 +31,10 @@ export const TodoList = () => {
         ));
     }
 
-    useEffect(() => {
-        if (addItemMutation.isSuccess) {
-            refetch();
-        }
-    }, [addItemMutation.isSuccess]);
-
     return (
         <Container>
             <Layout>
-                <Header handleAddItem={apiAddItem}>To Do app</Header>
+                <TodoListHeader onNewItemAdd={refetch}>To Do app</TodoListHeader>
                 <List>{ListItems}</List>
                 <Footer />
             </Layout>
