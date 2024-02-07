@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ListItem, ListItemProps } from "../components/ListItem";
 import { useMutation } from "react-query";
-import { editTodoListItem } from "../api/items";
+import { deleteTodoListItem, editTodoListItem } from "../api/items";
 import { Form } from "../components/form";
 import { FormProps } from "../components/form/types";
 
@@ -12,6 +12,7 @@ interface TodoListItemProps extends Pick<ListItemProps, "label"> {
 
 export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemChange }) => {
     const editItemMutation = useMutation({ mutationFn: editTodoListItem });
+    const deleteItemMutation = useMutation({ mutationFn: deleteTodoListItem });
     const [isInEditMode, setIsInEditMode] = useState(false);
 
     const toggleEditMode = useCallback(() => {
@@ -30,21 +31,20 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemCha
         [editItemMutation, label, id]
     );
 
+    const apiDeleteItem = useCallback<ListItemProps["handleRemoval"]>(() => {
+        deleteItemMutation.mutate({ id });
+    }, [deleteItemMutation, id]);
+
     useEffect(() => {
-        if (editItemMutation.isSuccess) {
+        if (editItemMutation.isSuccess || deleteItemMutation.isSuccess) {
             onItemChange();
         }
-    }, [editItemMutation.isSuccess]);
+    }, [editItemMutation.isSuccess, deleteItemMutation.isSuccess]);
 
     const ListItemToShow = isInEditMode ? (
         <Form handleSubmit={apiEditItem} handleCancel={toggleEditMode} initialValue={label} />
     ) : (
-        <ListItem
-            key={id}
-            label={label}
-            handleEdit={toggleEditMode}
-            handleRemoval={() => console.warn("unimplemented")}
-        />
+        <ListItem key={id} label={label} handleEdit={toggleEditMode} handleRemoval={apiDeleteItem} />
     );
     return ListItemToShow;
 };
