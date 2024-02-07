@@ -10,7 +10,7 @@ export interface NewItemData {
 }
 
 export interface EditItemData extends NewItemData, Pick<ListItemFromApi, "id"> {
-    checked: boolean;
+    done: boolean;
 }
 
 export type DeleteItemData = Pick<ListItemFromApi, "id">;
@@ -25,7 +25,7 @@ export const addTodoListItem = async (item: NewItemData): Promise<Response> => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(item),
+        body: JSON.stringify({ ...item, done: false }),
     });
 };
 

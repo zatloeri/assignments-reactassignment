@@ -22,7 +22,7 @@ export const TodoList: React.FC = () => {
         ListItems = "No data";
     } else {
         ListItems = data.map((item, index) => (
-            <TodoListItem onItemChange={refetch} id={item.id} key={index} label={item.title} />
+            <TodoListItem onItemChange={refetch} id={item.id} key={index} label={item.title} isChecked={item.done} />
         ));
     }
 

@@ -10,7 +10,7 @@ const meta = {
 } as Meta<typeof List>;
 export default meta;
 
-type Story = StoryObj<typeof ListItem>;
+type Story = StoryObj<typeof List>;
 
 const emptyHandlers: Pick<ListItemProps, "handleEdit" | "handleRemoval"> = {
     handleRemoval: action("Removal requested"),

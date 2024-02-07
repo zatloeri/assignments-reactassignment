@@ -31,7 +31,7 @@ const StyledLabel = styled.label`
     margin-left: 15px;
 `;
 
-export type ListItemProps = CheckboxProps & {
+export type ListItemProps = Pick<CheckboxProps, 'onCheckedChange' | 'checked'> & {
     label: string;
     handleEdit: () => void;
     handleRemoval: () => void;
