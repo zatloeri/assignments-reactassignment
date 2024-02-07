@@ -16,7 +16,7 @@ export interface EditItemData extends NewItemData, Pick<ListItemFromApi, "id"> {
 export type DeleteItemData = Pick<ListItemFromApi, "id">;
 
 export const getTodoListItems = async (): Promise<ListItemFromApi[]> => {
-    return fetch("http://localhost:3000/items").then((res) => res.json());
+    return fetch("http://localhost:3000/items?_sort=done,createdAt").then((res) => res.json());
 };
 
 export const addTodoListItem = async (item: NewItemData): Promise<Response> => {
