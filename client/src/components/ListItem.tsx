@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Checkbox } from "./Checkbox";
 import { CheckboxProps } from "@radix-ui/react-checkbox";
 import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
+import { Button } from "./form/Button";
 
 const StyledListItemContainer = styled.div`
     margin: 0.25rem 0.5rem;
@@ -19,19 +20,13 @@ const StyledActionButtons = styled.div`
         opacity: 1;
         visibility: visible;
     }
-    button {
-        margin: 0 0.15rem;
-        display: inline-flex;
-        vertical-align: middle;
-        padding: 0.25rem 0.25rem;
-    }
 `;
 
 const StyledLabel = styled.label`
     margin-left: 15px;
 `;
 
-export type ListItemProps = Pick<CheckboxProps, 'onCheckedChange' | 'checked'> & {
+export type ListItemProps = Pick<CheckboxProps, "onCheckedChange" | "checked"> & {
     label: string;
     handleEdit: () => void;
     handleRemoval: () => void;
@@ -42,12 +37,12 @@ export const ListItem: React.FC<ListItemProps> = ({ label, handleRemoval, handle
         <Checkbox {...checkboxProps} />
         <StyledLabel>{label}</StyledLabel>
         <StyledActionButtons>
-            <button onClick={handleRemoval}>
+            <Button onClick={handleRemoval} colorScheme="unsafe">
                 <TrashIcon />
-            </button>
-            <button onClick={handleEdit}>
+            </Button>
+            <Button onClick={handleEdit}>
                 <Pencil1Icon />
-            </button>
+            </Button>
         </StyledActionButtons>
     </StyledListItemContainer>
 );
