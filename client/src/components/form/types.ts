@@ -1,5 +1,5 @@
 export type FormProps = {
-    handleSubmit: (data: string) => void;
+    handleSubmit: (itemLabel: string) => void;
     handleCancel: () => void;
     initialValue: string;
 };

@@ -1,18 +1,15 @@
-import { Container } from "./components/Container";
-import { Layout } from "./components/Layout";
-import { List } from "./components/List";
-import { Header } from "./components/Header";
-import { Footer } from "./components/Footer";
+import { TodoList } from "./TodoList";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { QueryClient, QueryClientProvider } from "react-query";
 
-export const App: React.FC = () => (
-    <ThemeProvider>
-        <Container>
-            <Layout>
-                <Header handleAddItem={() => console.warn("unimplemented")}>To Do app</Header>
-                <List />
-                <Footer />
-            </Layout>
-        </Container>
-    </ThemeProvider>
-);
+const queryClient = new QueryClient();
+
+export const App: React.FC = () => {
+    return (
+        <ThemeProvider>
+            <QueryClientProvider client={queryClient}>
+                <TodoList />
+            </QueryClientProvider>
+        </ThemeProvider>
+    );
+};

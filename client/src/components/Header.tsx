@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { PlusIcon } from "@radix-ui/react-icons";
+import { Form } from "./form";
 
 export type HeaderProps = {
     children: React.ReactNode;
-    handleAddItem: () => void;
+    handleAddItem: (data: { title: string }) => void;
 };
 
 const StyledHeader = styled.header`
@@ -30,11 +31,33 @@ const StyledHeader = styled.header`
     }
 `;
 
-export const Header: React.FC<HeaderProps> = ({ handleAddItem, children }) => (
-    <StyledHeader>
-        <h1>{children}</h1>
-        <button onClick={handleAddItem}>
+export const Header: React.FC<HeaderProps> = ({ handleAddItem, children }) => {
+    const [isAddingNewItem, setIsAddingNewItem] = useState(false);
+
+    const toggleAddNewItemForm = useCallback(() => {
+        setIsAddingNewItem(!isAddingNewItem);
+    }, [setIsAddingNewItem, isAddingNewItem]);
+
+    const handleFormSubmit = useCallback(
+        (title: string) => {
+            handleAddItem({ title });
+            toggleAddNewItemForm();
+        },
+        [handleAddItem]
+    );
+
+    const ButtonOrForm = isAddingNewItem ? (
+        <Form initialValue="New item" handleSubmit={handleFormSubmit} handleCancel={toggleAddNewItemForm}></Form>
+    ) : (
+        <button onClick={toggleAddNewItemForm}>
             <PlusIcon />
         </button>
-    </StyledHeader>
-);
+    );
+
+    return (
+        <StyledHeader>
+            <h1>{children}</h1>
+            {ButtonOrForm}
+        </StyledHeader>
+    );
+};
