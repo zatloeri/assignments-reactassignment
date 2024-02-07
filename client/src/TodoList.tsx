@@ -4,10 +4,10 @@ import { List } from "./components/List";
 import { Footer } from "./components/Footer";
 import { useQuery } from "react-query";
 import { ListItemFromApi, getTodoListItems } from "./api/items";
-import { ListItem } from "./components/ListItem";
 import { TodoListHeader } from "./todo-list/TodoListHeader";
+import { TodoListItem } from "./todo-list/TodoListItem";
 
-export const TodoList = () => {
+export const TodoList: React.FC = () => {
     const { isLoading, error, data, refetch } = useQuery<ListItemFromApi[]>({
         queryKey: ["todos"],
         queryFn: getTodoListItems,
@@ -22,12 +22,7 @@ export const TodoList = () => {
         ListItems = "No data";
     } else {
         ListItems = data.map((item, index) => (
-            <ListItem
-                key={index}
-                label={item.title}
-                handleEdit={() => console.warn("unimplemented")}
-                handleRemoval={() => console.warn("unimplemented")}
-            />
+            <TodoListItem onItemChange={refetch} id={item.id} key={index} label={item.title} />
         ));
     }
 

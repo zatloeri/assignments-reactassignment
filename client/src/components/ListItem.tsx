@@ -31,21 +31,21 @@ const StyledLabel = styled.label`
     margin-left: 15px;
 `;
 
-export type LiteItemProp = CheckboxProps & {
+export type ListItemProps = CheckboxProps & {
     label: string;
     handleEdit: () => void;
     handleRemoval: () => void;
 };
 
-export const ListItem: React.FC<LiteItemProp> = ({ label, handleRemoval, handleEdit, ...checkboxProps }) => (
+export const ListItem: React.FC<ListItemProps> = ({ label, handleRemoval, handleEdit, ...checkboxProps }) => (
     <StyledListItemContainer>
         <Checkbox {...checkboxProps} />
         <StyledLabel>{label}</StyledLabel>
         <StyledActionButtons>
-            <button onClick={() => handleEdit()}>
+            <button onClick={handleRemoval}>
                 <TrashIcon />
             </button>
-            <button onClick={() => handleRemoval()}>
+            <button onClick={handleEdit}>
                 <Pencil1Icon />
             </button>
         </StyledActionButtons>
