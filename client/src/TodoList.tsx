@@ -8,22 +8,40 @@ import { TodoListHeader } from "./todo-list/TodoListHeader";
 import { TodoListItem } from "./todo-list/TodoListItem";
 
 export const TodoList: React.FC = () => {
-    const { isLoading, error, data, refetch } = useQuery<ListItemFromApi[]>({
+    const {
+        isLoading,
+        error,
+        data: listItemsFromApi,
+        refetch,
+    } = useQuery<ListItemFromApi[]>({
         queryKey: ["todos"],
         queryFn: getTodoListItems,
     });
 
+    const allItemsCount = listItemsFromApi?.length || 0;
+    let doneItemsCount = 0;
     let ListItems: React.ReactNode | React.ReactNode[] = "Unknown state";
     if (error) {
         ListItems = "Error fetching data";
     } else if (isLoading) {
         ListItems = "Loading...";
-    } else if (!data) {
+    } else if (!listItemsFromApi) {
         ListItems = "No data";
     } else {
-        ListItems = data.map((item, index) => (
-            <TodoListItem onItemChange={refetch} id={item.id} key={index} label={item.title} isChecked={item.done} />
-        ));
+        ListItems = listItemsFromApi.map((item, index) => {
+            if (item.done) {
+                doneItemsCount += 1;
+            }
+            return (
+                <TodoListItem
+                    onItemChange={refetch}
+                    id={item.id}
+                    key={index}
+                    label={item.title}
+                    isChecked={item.done}
+                />
+            );
+        });
     }
 
     return (
@@ -31,7 +49,7 @@ export const TodoList: React.FC = () => {
             <Layout>
                 <TodoListHeader onNewItemAdd={refetch}>To Do app</TodoListHeader>
                 <List>{ListItems}</List>
-                <Footer />
+                <Footer doneItems={doneItemsCount} todoItems={allItemsCount - doneItemsCount} />
             </Layout>
         </Container>
     );
