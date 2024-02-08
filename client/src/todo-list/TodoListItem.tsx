@@ -28,9 +28,9 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemCha
             if (newTitle === label) {
                 return;
             }
-            editItemMutation.mutate({ id, title: newTitle, done: false });
+            editItemMutation.mutate({ id, title: newTitle, done: isChecked });
         },
-        [editItemMutation, label, id]
+        [editItemMutation, label, id, isChecked]
     );
 
     const apiChangeItemCheckedState = useCallback<NonNullable<CheckboxProps["onCheckedChange"]>>(
@@ -44,7 +44,7 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemCha
             }
             editItemMutation.mutate({ id, title: label, done: newCheckedState });
         },
-        [editItemMutation, label, id]
+        [editItemMutation, markDoneMutation, label, id]
     );
 
     const apiDeleteItem = useCallback<ListItemProps["handleRemoval"]>(() => {

@@ -22,11 +22,11 @@ export const TodoList: React.FC = () => {
     let doneItemsCount = 0;
     let ListItems: React.ReactNode | React.ReactNode[] = "Unknown state";
     if (error) {
-        ListItems = "Error fetching data";
+        ListItems = <span>Error fetching data</span>;
     } else if (isLoading) {
-        ListItems = "Loading...";
+        ListItems = <span>Loading...</span>;
     } else if (!listItemsFromApi) {
-        ListItems = "No data";
+        ListItems = <span>No data</span>;
     } else {
         ListItems = listItemsFromApi.map((item, index) => {
             if (item.done) {
