@@ -43,7 +43,7 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemCha
             }
             editItemMutation.mutate({ id, title: label, done: newCheckedState });
         },
-        [editItemMutation, markDoneMutation, label, id]
+        [editItemMutation, markDoneMutation, label, id, isChecked]
     );
 
     const apiDeleteItem = useCallback<ListItemProps["handleRemoval"]>(() => {
