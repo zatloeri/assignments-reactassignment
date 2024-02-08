@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
-import { FormProps } from "./form/types";
-import { Form } from "./form";
 import { StyledHeader } from "./Header";
+import { Form, FormProps } from "./form/Form";
 
 export type FormHeaderProps = {
     children: React.ReactNode;

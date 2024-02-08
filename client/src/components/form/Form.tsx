@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { FormProps } from "./types";
-import { Input } from "./Input";
+import { Input, InputProps } from "./Input";
 import { CheckIcon, Cross1Icon } from "@radix-ui/react-icons";
 import { Button } from "./Button";
 
 const StyledForm = styled.form`
     display: flex;
 `;
+
+export interface FormProps extends Pick<InputProps, "initialValue"> {
+    handleSubmit: (itemLabel: string) => void;
+    handleCancel: () => void;
+}
 
 export const Form = (props: FormProps): JSX.Element => {
     const [data, setData] = useState(props.initialValue);

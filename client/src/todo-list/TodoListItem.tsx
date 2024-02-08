@@ -2,9 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { ListItem, ListItemProps } from "../components/ListItem";
 import { useMutation } from "react-query";
 import { deleteTodoListItem, editTodoListItem, markTodoListItemDone } from "../api/items";
-import { Form } from "../components/form";
-import { FormProps } from "../components/form/types";
 import { CheckboxProps } from "@radix-ui/react-checkbox";
+import { Form, FormProps } from "../components/form/Form";
 
 interface TodoListItemProps extends Pick<ListItemProps, "label"> {
     id: number;
