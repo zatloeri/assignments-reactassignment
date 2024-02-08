@@ -4,7 +4,7 @@ import { Form, FormProps } from "./form/Form";
 
 export type FormHeaderProps = {
     children: React.ReactNode;
-    handleItemSubmit: (data: { title: string }) => void;
+    handleItemSubmit: (data: { title: string | number }) => void;
     onItemAddCancel: () => void;
 };
 

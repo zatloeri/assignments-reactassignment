@@ -6,7 +6,7 @@ export interface ListItemFromApi {
 }
 
 export interface NewItemData {
-    title: string;
+    title: string | number;
 }
 
 export interface EditItemData extends NewItemData, Pick<ListItemFromApi, "id"> {
