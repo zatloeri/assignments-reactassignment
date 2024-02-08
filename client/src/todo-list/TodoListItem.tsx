@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ListItem, ListItemProps } from "../components/ListItem";
 import { useMutation } from "react-query";
-import { deleteTodoListItem, editTodoListItem } from "../api/items";
+import { deleteTodoListItem, editTodoListItem, markTodoListItemDone } from "../api/items";
 import { Form } from "../components/form";
 import { FormProps } from "../components/form/types";
 import { CheckboxProps } from "@radix-ui/react-checkbox";
@@ -14,6 +14,7 @@ interface TodoListItemProps extends Pick<ListItemProps, "label"> {
 
 export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemChange, isChecked }) => {
     const editItemMutation = useMutation({ mutationFn: editTodoListItem });
+    const markDoneMutation = useMutation({ mutationFn: markTodoListItemDone });
     const deleteItemMutation = useMutation({ mutationFn: deleteTodoListItem });
     const [isInEditMode, setIsInEditMode] = useState(false);
 
@@ -23,11 +24,11 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemCha
 
     const apiChangeItemTitle = useCallback<FormProps["handleSubmit"]>(
         (newTitle) => {
+            toggleEditMode();
             if (newTitle === label) {
                 return;
             }
             editItemMutation.mutate({ id, title: newTitle, done: false });
-            toggleEditMode();
         },
         [editItemMutation, label, id]
     );
@@ -35,6 +36,10 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemCha
     const apiChangeItemCheckedState = useCallback<NonNullable<CheckboxProps["onCheckedChange"]>>(
         (newCheckedState) => {
             if (newCheckedState === "indeterminate" || newCheckedState === isChecked) {
+                return;
+            }
+            if (newCheckedState === true) {
+                markDoneMutation.mutate({ id });
                 return;
             }
             editItemMutation.mutate({ id, title: label, done: newCheckedState });
@@ -47,10 +52,10 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemCha
     }, [deleteItemMutation, id]);
 
     useEffect(() => {
-        if (editItemMutation.isSuccess || deleteItemMutation.isSuccess) {
+        if (editItemMutation.isSuccess || deleteItemMutation.isSuccess || markDoneMutation.isSuccess) {
             onItemChange();
         }
-    }, [editItemMutation.isSuccess, deleteItemMutation.isSuccess]);
+    }, [editItemMutation.isSuccess, deleteItemMutation.isSuccess, markDoneMutation.isSuccess]);
 
     const ListItemToShow = isInEditMode ? (
         <Form handleSubmit={apiChangeItemTitle} handleCancel={toggleEditMode} initialValue={label} />

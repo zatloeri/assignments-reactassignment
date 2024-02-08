@@ -13,6 +13,15 @@ server.use((req, res, next) => {
   next();
 });
 
+router.route;
+
+server.patch("/items/markdone/:id", (req, res) => {
+  const toUpdate = { done: true, finishedAt: Date.now() };
+  const idToUpdate = parseInt(req.params.id);
+  router.db.get("items").find({ id: idToUpdate }).assign(toUpdate).write();
+  res.send();
+});
+
 // Use default router
 server.use(router);
 server.listen(3000, () => {

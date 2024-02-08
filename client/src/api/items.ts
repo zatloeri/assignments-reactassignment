@@ -13,7 +13,10 @@ export interface EditItemData extends NewItemData, Pick<ListItemFromApi, "id"> {
     done: boolean;
 }
 
+
 export type DeleteItemData = Pick<ListItemFromApi, "id">;
+
+export type MarkItemDoneData = DeleteItemData;
 
 export const getTodoListItems = async (): Promise<ListItemFromApi[]> => {
     return fetch("http://localhost:3000/items?_sort=done,createdAt").then((res) => res.json());
@@ -36,6 +39,15 @@ export const editTodoListItem = async (item: EditItemData): Promise<Response> =>
             "Content-Type": "application/json",
         },
         body: JSON.stringify(item),
+    });
+};
+
+export const markTodoListItemDone = async (item: MarkItemDoneData): Promise<Response> => {
+    return fetch(`http://localhost:3000/items/markdone/${item.id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
     });
 };
 
