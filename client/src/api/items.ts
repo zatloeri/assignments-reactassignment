@@ -1,6 +1,6 @@
 export interface ListItemFromApi {
     id: number;
-    title: string;
+    title: string | number;
     done: boolean;
     createdAt: number;
 }

@@ -6,7 +6,7 @@ const StyledInput = styled.input``;
 
 export type InputProps = {
     handleInputChange: (value: string) => void;
-    initialValue: string;
+    initialValue: string | number;
 };
 
 export const Input = (props: InputProps): JSX.Element => {

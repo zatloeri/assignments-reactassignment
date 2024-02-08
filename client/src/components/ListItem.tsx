@@ -37,7 +37,7 @@ const StyledLabel = styled.label`
 `;
 
 export type ListItemProps = Pick<CheckboxProps, "onCheckedChange" | "checked"> & {
-    label: string;
+    label: string | number;
     handleEdit: () => void;
     handleRemoval: () => void;
     forceHoverState?: boolean;
