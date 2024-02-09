@@ -14,17 +14,17 @@ export const TodoListHeader: React.FC<TodoListHeaderProps> = ({ children, onNewI
     const [isAddingNewItem, setIsAddingNewItem] = useState(false);
     const addItemMutation = useMutation({ mutationFn: addTodoListItem });
 
+    const toggleAddNewItemForm = useCallback<HeaderProps["handleAddItem"]>(() => {
+        setIsAddingNewItem(!isAddingNewItem);
+    }, [setIsAddingNewItem, isAddingNewItem]);
+
     const apiAddItem = useCallback<FormHeaderProps["handleItemSubmit"]>(
         (data) => {
             addItemMutation.mutate(data);
             toggleAddNewItemForm();
         },
-        [addItemMutation]
+        [addItemMutation, toggleAddNewItemForm]
     );
-
-    const toggleAddNewItemForm = useCallback<HeaderProps["handleAddItem"]>(() => {
-        setIsAddingNewItem(!isAddingNewItem);
-    }, [setIsAddingNewItem, isAddingNewItem]);
 
     useMutationSuccessEffect(addItemMutation, onNewItemAdd);
 

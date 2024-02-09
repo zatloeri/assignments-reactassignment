@@ -49,7 +49,7 @@ const useOfflineListItems = (listItemsFromApi: ListItemFromApi[] | undefined) =>
 
             setOfflineListItems(newListItems);
         },
-        [offlineListItems, setOfflineListItems]
+        [offlineListItems]
     );
 
     const onItemAdd = useCallback(

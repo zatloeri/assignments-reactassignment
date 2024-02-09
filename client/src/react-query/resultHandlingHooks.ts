@@ -9,6 +9,7 @@ export const useMutationSuccessEffect = <TData, TError, Variables, TContext>(
         if (mutationResult.isSuccess) {
             callback(mutationResult.variables || ({} as Variables));
         }
-        // Callback intentionally left out from deps list
-    }, [mutationResult.isSuccess]);
+    // Callback intentionally left out from deps list
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [mutationResult.isSuccess, mutationResult.variables]);
 };

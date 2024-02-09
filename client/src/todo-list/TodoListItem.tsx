@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ListItem, ListItemProps } from "../components/ListItem";
 import { useMutation } from "react-query";
 import { DeleteItemData, EditItemData, deleteTodoListItem, editTodoListItem, markTodoListItemDone } from "../api/items";
@@ -14,9 +14,9 @@ interface TodoListItemProps extends Pick<ListItemProps, "label"> {
 }
 
 export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemChange, onItemDelete, isChecked }) => {
-    const editItemMutation = useMutation({ mutationFn: editTodoListItem });
-    const markDoneMutation = useMutation({ mutationFn: markTodoListItemDone });
-    const deleteItemMutation = useMutation({ mutationFn: deleteTodoListItem });
+    const editItemMutation = useMutation({ mutationKey: ["editTodoItem"], mutationFn: editTodoListItem });
+    const markDoneMutation = useMutation({ mutationKey: ["markDoneTodoItem"], mutationFn: markTodoListItemDone });
+    const deleteItemMutation = useMutation({ mutationKey: ["deleteTodoItem"], mutationFn: deleteTodoListItem });
     const [isInEditMode, setIsInEditMode] = useState(false);
 
     const toggleEditMode = useCallback(() => {
@@ -31,7 +31,7 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemCha
             }
             editItemMutation.mutate({ id, title: newTitle, done: isChecked });
         },
-        [editItemMutation, label, id, isChecked]
+        [toggleEditMode, label, editItemMutation, id, isChecked]
     );
 
     const apiChangeItemCheckedState = useCallback<NonNullable<CheckboxProps["onCheckedChange"]>>(
@@ -52,10 +52,7 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemCha
         deleteItemMutation.mutate({ id });
     }, [deleteItemMutation, id]);
 
-    useMutationSuccessEffect(
-        markDoneMutation,
-        useCallback(() => onItemChange({ id, done: true }), [onItemChange])
-    );
+    useMutationSuccessEffect(markDoneMutation, () => onItemChange({ id, done: true }));
     useMutationSuccessEffect(deleteItemMutation, onItemDelete);
     useMutationSuccessEffect(editItemMutation, onItemChange);
 
