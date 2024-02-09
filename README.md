@@ -8,6 +8,8 @@ save time I continued with server first implementation and added offline later
 the size and intended usage of the application (+time restrictions) I did not
 write any tests to save time
   * I would have used Storybook interactions to test on this app probably
+* Commits marked `[overtime]` were done after 6h of work but I found them
+important (and fun) to do
 
 # Datamole's React / TypeScript assignment
 
