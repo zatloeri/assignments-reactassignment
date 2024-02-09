@@ -4,12 +4,7 @@ import { Checkbox } from "./Checkbox";
 import { CheckboxProps } from "@radix-ui/react-checkbox";
 import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 import { Button } from "./form/Button";
-
-const StyledListItemContainer = styled.div`
-    margin: 0.25rem 0.5rem;
-    display: flex;
-    align-items: center;
-`;
+import { StyledListItemContainer } from "./ListItemContainer";
 
 const buttonForcedShowStyles = `
     visibility: visible;
@@ -49,17 +44,19 @@ export const ListItem: React.FC<ListItemProps> = ({
     handleEdit,
     forceHoverState,
     ...checkboxProps
-}) => (
-    <StyledListItemContainer>
-        <Checkbox {...checkboxProps} />
-        <StyledLabel>{label}</StyledLabel>
-        <StyledActionButtons forceHoverState={forceHoverState}>
-            <Button onClick={handleRemoval} colorScheme="unsafe">
-                <TrashIcon />
-            </Button>
-            <Button onClick={handleEdit}>
-                <Pencil1Icon />
-            </Button>
-        </StyledActionButtons>
-    </StyledListItemContainer>
-);
+}) => {
+    return (
+        <>
+            <Checkbox {...checkboxProps} />
+            <StyledLabel>{label}</StyledLabel>
+            <StyledActionButtons forceHoverState={forceHoverState}>
+                <Button onClick={handleRemoval} colorScheme="unsafe">
+                    <TrashIcon />
+                </Button>
+                <Button onClick={handleEdit}>
+                    <Pencil1Icon />
+                </Button>
+            </StyledActionButtons>
+        </>
+    );
+};

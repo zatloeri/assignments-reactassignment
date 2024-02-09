@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { ListItem, ListItemProps } from "../components/ListItem";
 import { useMutation } from "react-query";
 import { DeleteItemData, EditItemData, deleteTodoListItem, editTodoListItem, markTodoListItemDone } from "../api/items";
 import { CheckboxProps } from "@radix-ui/react-checkbox";
 import { Form, FormProps } from "../components/form/Form";
 import { useMutationSuccessEffect } from "../react-query/resultHandlingHooks";
+import {StyledListItemContainer} from "../components/ListItemContainer";
 
 interface TodoListItemProps extends Pick<ListItemProps, "label"> {
     id: number;
@@ -68,5 +69,5 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemCha
             checked={isChecked}
         />
     );
-    return ListItemToShow;
+    return <StyledListItemContainer>{ListItemToShow}</StyledListItemContainer>;
 };
