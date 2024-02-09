@@ -9,8 +9,8 @@ export interface NewItemData {
     title: string | number;
 }
 
-export interface EditItemData extends NewItemData, Pick<ListItemFromApi, "id"> {
-    done: boolean;
+export interface EditItemData extends Partial<NewItemData>, Pick<ListItemFromApi, "id"> {
+    done?: boolean;
 }
 
 

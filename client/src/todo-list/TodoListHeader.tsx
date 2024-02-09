@@ -1,12 +1,13 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Header, HeaderProps } from "../components/Header";
 import { useMutation } from "react-query";
-import { addTodoListItem } from "../api/items";
+import { NewItemData, addTodoListItem } from "../api/items";
 import { FormHeader, FormHeaderProps } from "../components/FormHeader";
+import { useMutationSuccessEffect } from "../react-query/resultHandlingHooks";
 
 export type TodoListHeaderProps = {
     children: React.ReactNode;
-    onNewItemAdd: () => void;
+    onNewItemAdd: (data: NewItemData) => void;
 };
 
 export const TodoListHeader: React.FC<TodoListHeaderProps> = ({ children, onNewItemAdd }) => {
@@ -25,11 +26,7 @@ export const TodoListHeader: React.FC<TodoListHeaderProps> = ({ children, onNewI
         setIsAddingNewItem(!isAddingNewItem);
     }, [setIsAddingNewItem, isAddingNewItem]);
 
-    useEffect(() => {
-        if (addItemMutation.isSuccess) {
-            onNewItemAdd();
-        }
-    }, [addItemMutation.isSuccess]);
+    useMutationSuccessEffect(addItemMutation, onNewItemAdd);
 
     const HeaderComponent = isAddingNewItem ? (
         <FormHeader handleItemSubmit={apiAddItem} onItemAddCancel={toggleAddNewItemForm}>

@@ -1,17 +1,19 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { ListItem, ListItemProps } from "../components/ListItem";
 import { useMutation } from "react-query";
-import { deleteTodoListItem, editTodoListItem, markTodoListItemDone } from "../api/items";
+import { DeleteItemData, EditItemData, deleteTodoListItem, editTodoListItem, markTodoListItemDone } from "../api/items";
 import { CheckboxProps } from "@radix-ui/react-checkbox";
 import { Form, FormProps } from "../components/form/Form";
+import { useMutationSuccessEffect } from "../react-query/resultHandlingHooks";
 
 interface TodoListItemProps extends Pick<ListItemProps, "label"> {
     id: number;
     isChecked: boolean;
-    onItemChange: () => void;
+    onItemChange: (params: EditItemData) => void;
+    onItemDelete: (params: DeleteItemData) => void;
 }
 
-export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemChange, isChecked }) => {
+export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemChange, onItemDelete, isChecked }) => {
     const editItemMutation = useMutation({ mutationFn: editTodoListItem });
     const markDoneMutation = useMutation({ mutationFn: markTodoListItemDone });
     const deleteItemMutation = useMutation({ mutationFn: deleteTodoListItem });
@@ -50,11 +52,12 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({ label, id, onItemCha
         deleteItemMutation.mutate({ id });
     }, [deleteItemMutation, id]);
 
-    useEffect(() => {
-        if (editItemMutation.isSuccess || deleteItemMutation.isSuccess || markDoneMutation.isSuccess) {
-            onItemChange();
-        }
-    }, [editItemMutation.isSuccess, deleteItemMutation.isSuccess, markDoneMutation.isSuccess]);
+    useMutationSuccessEffect(
+        markDoneMutation,
+        useCallback(() => onItemChange({ id, done: true }), [onItemChange])
+    );
+    useMutationSuccessEffect(deleteItemMutation, onItemDelete);
+    useMutationSuccessEffect(editItemMutation, onItemChange);
 
     const ListItemToShow = isInEditMode ? (
         <Form handleSubmit={apiChangeItemTitle} handleCancel={toggleEditMode} initialValue={label} />
